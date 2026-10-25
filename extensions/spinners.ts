@@ -95,6 +95,13 @@ export default function (pi: ExtensionAPI) {
 
   pi.registerCommand("spinners", {
     description: "Toggle rotating spinner verbs; the choice is saved in settings.json",
+    getArgumentCompletions: (prefix) => {
+      const options = [
+        { value: "on", description: "rotate spinner verbs" },
+        { value: "off", description: "restore the default Working row" },
+      ].filter((option) => option.value.startsWith(prefix));
+      return options.length > 0 ? options.map((option) => ({ ...option, label: option.value })) : null;
+    },
     handler: async (args, ctx) => {
       const arg = args.trim().toLowerCase();
       if (arg !== "on" && arg !== "off") {
